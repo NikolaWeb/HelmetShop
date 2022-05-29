@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace HelmetShop.DataAccess.Configurations
 {
-    public class UserConfigutartion : IEntityTypeConfiguration<User>
+    public class UserConfiguration : IEntityTypeConfiguration<User>
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
@@ -19,7 +19,11 @@ namespace HelmetShop.DataAccess.Configurations
 
             builder.HasIndex(x => x.Email).IsUnique();
 
+            builder.HasMany(x => x.Orders).WithOne(x => x.User).HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.Restrict);
             builder.HasMany(x => x.UseCases).WithOne(x => x.User).HasForeignKey(x => x.UserId);
+
+          
+
         }
     }
 }

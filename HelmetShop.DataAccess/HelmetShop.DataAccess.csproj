@@ -17,4 +17,8 @@
     <ProjectReference Include="..\HelmetShop.Domain\HelmetShop.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>

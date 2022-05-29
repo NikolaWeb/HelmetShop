@@ -14,6 +14,8 @@ namespace HelmetShop.Domain
         public string LastName { get; set; }
         public string Password { get; set; }
 
+        public ICollection<Order> Orders { get; set; } = new List<Order>();
         public virtual ICollection<UserUseCase> UseCases { get; set; }
+
     }
 }

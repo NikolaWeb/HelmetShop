@@ -9,5 +9,6 @@ namespace HelmetShop.Domain
     public class Brand : Entity
     {
         public string Name { get; set; }
+
     }
 }
