@@ -12,6 +12,7 @@ namespace HelmetShop.DataAccess
             modelBuilder.Entity<UserUseCase>().HasKey(x => new {x.UserId, x.UseCaseId});
             modelBuilder.Entity<CartItem>().HasKey(x => new { x.ProductId, x.OrderId });
             modelBuilder.Entity<ProductCategory>().HasKey(x => new { x.ProductId, x.CategoryId});
+            modelBuilder.Entity<Order>().Property(x => x.CreatedAt).HasDefaultValue("GETDATE()");
             base.OnModelCreating(modelBuilder);
         }
 

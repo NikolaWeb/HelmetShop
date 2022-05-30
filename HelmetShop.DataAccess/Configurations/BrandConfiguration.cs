@@ -12,8 +12,9 @@ namespace HelmetShop.DataAccess.Configurations
     {
         protected override void ConfigureRules(EntityTypeBuilder<Brand> builder)
         {
-            builder.HasIndex(x => x.Name);
             builder.Property(x => x.Name).IsRequired(true);
+
+            builder.HasIndex(x => x.Name);
         }
     }
 }

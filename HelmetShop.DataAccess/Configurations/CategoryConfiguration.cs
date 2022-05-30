@@ -13,7 +13,7 @@ namespace HelmetShop.DataAccess.Configurations
     {
         protected override void ConfigureRules(EntityTypeBuilder<Category> builder)
         {
-            builder.HasIndex(x => x.Name);
+            
             builder.Property(x => x.Name).HasMaxLength(40).IsRequired();
 
             builder.HasMany(x => x.ProductCategories)
@@ -21,7 +21,7 @@ namespace HelmetShop.DataAccess.Configurations
                      .HasForeignKey(x => x.CategoryId)
                      .OnDelete(DeleteBehavior.Cascade);
 
-
+            builder.HasIndex(x => x.Name);
 
         }
     }

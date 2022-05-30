@@ -14,7 +14,6 @@ namespace HelmetShop.DataAccess.Configurations
         {
             builder.Property(x => x.Address).HasMaxLength(50).IsRequired();
             builder.Property(x => x.UserId).IsRequired();
-          
         }
     }
 }
