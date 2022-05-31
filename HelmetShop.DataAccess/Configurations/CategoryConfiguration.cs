@@ -17,11 +17,13 @@ namespace HelmetShop.DataAccess.Configurations
             builder.Property(x => x.Name).HasMaxLength(40).IsRequired();
 
             builder.HasMany(x => x.ProductCategories)
-                     .WithOne(x => x.Category)
-                     .HasForeignKey(x => x.CategoryId)
-                     .OnDelete(DeleteBehavior.Cascade);
+                   .WithOne(x => x.Category)
+                   .HasForeignKey(x => x.CategoryId)
+                   .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasIndex(x => x.Name);
+
+            //function(x) => { return x.ProductCategories }
 
         }
     }
