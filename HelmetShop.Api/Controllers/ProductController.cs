@@ -6,7 +6,7 @@ namespace HelmetShop.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductController : Controller
+    public class ProductController : ControllerBase
     {
         //GET: api/products
         [HttpGet]
@@ -27,7 +27,7 @@ namespace HelmetShop.Api.Controllers
                 x.Description,
                 x.Price,
                 x.Id,
-                Brand = x.BrandId == x.Brand.Id
+                Brand = x.Brand.Name
             }).ToList());
         }
     }

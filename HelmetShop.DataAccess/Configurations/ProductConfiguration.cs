@@ -16,6 +16,8 @@ namespace HelmetShop.DataAccess.Configurations
             builder.Property(x => x.Name).IsRequired().HasMaxLength(50);
             builder.HasIndex(x => x.Name).IsUnique();
 
+            builder.Property(x => x.Size).IsRequired().HasMaxLength(5);
+
             builder.HasMany(x => x.ProductCategories)
                     .WithOne(x => x.Product)
                     .HasForeignKey(x => x.ProductId)

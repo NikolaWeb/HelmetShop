@@ -19,7 +19,7 @@ namespace HelmetShop.DataAccess
         //connection string is hardcoded
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Data Source=MUSCLEPLUS\SQLEXPRESS;Initial Catalog=HelmetShopDb;Integrated Security=True");
+            optionsBuilder.UseSqlServer(@"Data Source=MUSCLEPLUS\SQLEXPRESS;Initial Catalog=HelmetShopDatabase;Integrated Security=True");
         }
         public DbSet<User> Users { get; set; }
         public DbSet<Order> Orders { get; set; }
