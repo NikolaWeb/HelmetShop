@@ -13,4 +13,8 @@
     <ProjectReference Include="..\HelmetShop.Domain\HelmetShop.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Extensions\" />
+  </ItemGroup>
+
 </Project>

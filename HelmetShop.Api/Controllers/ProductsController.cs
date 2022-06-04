@@ -6,7 +6,7 @@ namespace HelmetShop.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductController : ControllerBase
+    public class ProductsController : ControllerBase
     {
         //GET: api/products
         [HttpGet]

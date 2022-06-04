@@ -1,3 +1,5 @@
+using HelmetShop.Api.Payment;
+using HelmetShop.DataAccess;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -25,8 +27,10 @@ namespace HelmetShop.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
 
+            services.AddTransient<HsContext>();
+            services.AddTransient<IPaymentMethod, WireTransfer>();
+            services.AddTransient<OrderProcessor>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
