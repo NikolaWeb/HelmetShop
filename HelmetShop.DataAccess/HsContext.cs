@@ -6,6 +6,12 @@ namespace HelmetShop.DataAccess
 {
     public class HsContext : DbContext
     {
+
+        public HsContext(DbContextOptions options) : base(options)
+        {
+
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);
@@ -16,11 +22,13 @@ namespace HelmetShop.DataAccess
             base.OnModelCreating(modelBuilder);
         }
 
-        //connection string is hardcoded
+        //connection string is in appsettings
+        /*
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(@"Data Source=MUSCLEPLUS\SQLEXPRESS;Initial Catalog=HelmetShopDatabase;Integrated Security=True");
         }
+        */
         public DbSet<User> Users { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Brand> Brands { get; set; }

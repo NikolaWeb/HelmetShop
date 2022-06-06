@@ -8,13 +8,19 @@ namespace HelmetShop.Api.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
+        private HsContext _context;
+
+        public ProductsController(HsContext context)
+        {
+            _context = context;
+        }
+
         //GET: api/products
         [HttpGet]
         public IActionResult Get([FromQuery] string keyword)
         {
-            var context = new HsContext();
-
-            var productsQuery = context.Products.AsQueryable();
+           
+            var productsQuery = _context.Products.AsQueryable();
 
             if(keyword != null)
             {
@@ -24,6 +30,7 @@ namespace HelmetShop.Api.Controllers
             return Ok(productsQuery.Select(x => new
             {
                 x.Name,
+                x.Size,
                 x.Description,
                 x.Price,
                 x.Id,

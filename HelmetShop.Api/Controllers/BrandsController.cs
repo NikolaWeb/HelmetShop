@@ -15,9 +15,9 @@ namespace HelmetShop.Api.Controllers
     {
         private HsContext _context;
 
-        public BrandsController()
+        public BrandsController(HsContext context)
         {
-            _context = new HsContext();
+            _context = context;
         }
 
         //GET: api/brand
