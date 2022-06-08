@@ -10,8 +10,4 @@
     <ProjectReference Include="..\HelmetShop.Domain\HelmetShop.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="UseCases\Commands\" />
-  </ItemGroup>
-
 </Project>

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace HelmetShop.Implementation.UseCases.Queries
 {
-    public class GetCategoriesQuery : IGetCategoriesQuery
+    public class GetCategoriesQuery : UseCase, IGetCategoriesQuery
     {
         public int Id => 1;
 
@@ -19,14 +19,14 @@ namespace HelmetShop.Implementation.UseCases.Queries
 
         public string Description => "Search Categories using EF";
 
-        private HsContext _context;
-        public GetCategoriesQuery(HsContext context) => _context = context;
-        
        
+        public GetCategoriesQuery(HsContext context) : base(context)
+        {
+        }
 
         public IEnumerable<CategoryDto> Execute(BaseSearch search)
         {
-            var query = _context.Categories.AsQueryable();
+            var query = Context.Categories.AsQueryable();
 
             if (!string.IsNullOrEmpty(search.Keyword))
             {

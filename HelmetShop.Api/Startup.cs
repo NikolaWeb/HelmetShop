@@ -15,6 +15,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HelmetShop.Application.UseCases.Commands;
+using HelmetShop.Implementation.UseCases.Commands;
 
 namespace HelmetShop.Api
 {
@@ -43,10 +45,10 @@ namespace HelmetShop.Api
                 return new HsContext(options);
             });
 
-
-            services.AddTransient<IPaymentMethod, WireTransfer>();
+            services.AddSingleton<IPaymentMethod, WireTransfer>();
             services.AddTransient<OrderProcessor>();
             services.AddTransient<IGetCategoriesQuery, GetCategoriesQuery>() ;
+            services.AddTransient<ICreateCategoryCommand, CreateCategoryCommand>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

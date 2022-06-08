@@ -12,6 +12,8 @@ namespace HelmetShop.DataAccess
 
         }
 
+        public IApplicationUser User { get; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);
@@ -29,6 +31,31 @@ namespace HelmetShop.DataAccess
             optionsBuilder.UseSqlServer(@"Data Source=MUSCLEPLUS\SQLEXPRESS;Initial Catalog=HelmetShopDatabase;Integrated Security=True");
         }
         */
+
+        public override int SaveChanges()
+        {
+            foreach (var entry in this.ChangeTracker.Entries())
+            {
+                if (entry.Entity is Entity e)
+                {
+                    switch (entry.State)
+                    {
+                        case EntityState.Added:
+                            e.IsActive = true;
+                            e.CreatedAt = DateTime.UtcNow;
+                            break;
+                        case EntityState.Modified:
+                            e.UpdatedAt = DateTime.UtcNow;
+                            e.UpdatedBy = User?.Identity;
+                            break;
+                    }
+                }
+            }
+
+            return base.SaveChanges();
+        }
+
+
         public DbSet<User> Users { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Brand> Brands { get; set; }
