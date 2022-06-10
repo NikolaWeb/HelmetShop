@@ -11,7 +11,12 @@ namespace HelmetShop.DataAccess
         {
 
         }
+        /*
+        public HsContext()
+        {
 
+        }
+        */
         public IApplicationUser User { get; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -25,12 +30,12 @@ namespace HelmetShop.DataAccess
         }
 
         //connection string is in appsettings
-        /*
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(@"Data Source=MUSCLEPLUS\SQLEXPRESS;Initial Catalog=HelmetShopDatabase;Integrated Security=True");
-        }
-        */
+
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseSqlServer(@"Data Source=MUSCLEPLUS\SQLEXPRESS;Initial Catalog=HelmetShopDatabase;Integrated Security=True");
+        //}
+
 
         public override int SaveChanges()
         {

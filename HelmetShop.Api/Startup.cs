@@ -17,6 +17,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using HelmetShop.Application.UseCases.Commands;
 using HelmetShop.Implementation.UseCases.Commands;
+using HelmetShop.Application.Logging;
+using HelmetShop.Implementation.Logging;
+using HelmetShop.Implementation;
+using HelmetShop.Implementation.Validators;
 
 namespace HelmetShop.Api
 {
@@ -32,6 +36,7 @@ namespace HelmetShop.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddTransient<HsContext>(x =>
             {
                 var optionsBuilder = new DbContextOptionsBuilder();
@@ -49,6 +54,9 @@ namespace HelmetShop.Api
             services.AddTransient<OrderProcessor>();
             services.AddTransient<IGetCategoriesQuery, GetCategoriesQuery>() ;
             services.AddTransient<ICreateCategoryCommand, CreateCategoryCommand>();
+            services.AddTransient<IExceptionLogger, ConsoleExceptionLogger>();
+            services.AddTransient<UseCaseHandler>();
+            services.AddTransient<CreateCategoryValidator>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

@@ -1,6 +1,8 @@
 ﻿using HelmetShop.Api.DTO;
 using HelmetShop.Api.DTO.Searches;
+using HelmetShop.Application.Logging;
 using HelmetShop.DataAccess;
+using HelmetShop.Implementation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +15,7 @@ namespace HelmetShop.Api.Controllers
     [ApiController]
     public class BrandsController : ControllerBase
     {
+        private IExceptionLogger _logger;
         private HsContext _context;
 
         public BrandsController(HsContext context)
@@ -24,6 +27,8 @@ namespace HelmetShop.Api.Controllers
         [HttpGet]
         public IActionResult Get([FromQuery] BaseSearch search)
         {
+            
+           
             try
             {
                 var query = _context.Brands.AsQueryable();
@@ -45,13 +50,12 @@ namespace HelmetShop.Api.Controllers
             {
                 var guid = Guid.NewGuid();
 
-                var logger = new ExceptionLogger();
-
-                logger.LogException(e, guid);
+                _logger.Log(e);
 
                 return StatusCode(StatusCodes.Status500InternalServerError,
                     new { message = "There was an error processing your request. Contact our support with the following code: " + guid.ToString() });
             }
+            
         }
 
         [HttpGet("{id}")]
