@@ -1,4 +1,5 @@
-﻿using HelmetShop.Api.Extensions;
+﻿using FluentValidation;
+using HelmetShop.Api.Extensions;
 using HelmetShop.Application.UseCases.Commands;
 using HelmetShop.Application.UseCases.DTO;
 using HelmetShop.Application.UseCases.DTO.Searches;
@@ -42,21 +43,25 @@ namespace HelmetShop.Api.Controllers
             return Ok(_handler.HandleQuery(query, search));
         }
 
-        public IActionResult Post([FromBody]CategoryDto dto, [FromServices] ICreateCategoryCommand command, [FromServices] CreateCategoryValidator validator)
+        public IActionResult Post([FromBody]CategoryDto dto, [FromServices] ICreateCategoryCommand command)
         {
             try
             {
                 //validacija sa ispisom gresaka
-                var result = validator.Validate(dto);
+                //var result = validator.Validate(dto);
 
-                if (!result.IsValid)
-                {
-                    return result.ToUnprocessableEntity();
-                }
+                //if (!result.IsValid)
+                //{
+                //    return result.ToUnprocessableEntity();
+                //}
 
                 _handler.HandleCommand(command, dto);
                 //command.Execute(dto);
                 return StatusCode(201);
+            }
+            catch (ValidationException e) 
+            {
+                return e.Errors.AsUnprocessableEntity();
             }
             catch (System.Exception)
             {

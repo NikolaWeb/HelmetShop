@@ -1,6 +1,7 @@
-﻿using HelmetShop.Api.DTO;
-using HelmetShop.Api.DTO.Searches;
+﻿using FluentValidation;
 using HelmetShop.Application.Logging;
+using HelmetShop.Application.UseCases.DTO.Searches;
+using HelmetShop.Application.UseCases.Queries;
 using HelmetShop.DataAccess;
 using HelmetShop.Implementation;
 using Microsoft.AspNetCore.Http;
@@ -15,47 +16,46 @@ namespace HelmetShop.Api.Controllers
     [ApiController]
     public class BrandsController : ControllerBase
     {
-        private IExceptionLogger _logger;
-        private HsContext _context;
+        private UseCaseHandler _handler;
 
-        public BrandsController(HsContext context)
+        public BrandsController(UseCaseHandler handler)
         {
-            _context = context;
+            _handler = handler;
         }
 
         //GET: api/brand
         [HttpGet]
-        public IActionResult Get([FromQuery] BaseSearch search)
-        {
-            
+        public IActionResult Get([FromQuery] BaseSearch search, [FromServices] IGetBrandsQuery query)
+        {    
            
-            try
-            {
-                var query = _context.Brands.AsQueryable();
+                //var query = _context.Brands.AsQueryable();
 
-                var keyword = search.Keyword;
+                //var keyword = search.Keyword;
 
-                if (!string.IsNullOrEmpty(keyword))
-                {
-                    query = query.Where(x => x.Name.Contains(keyword));
-                }
+                //if (!string.IsNullOrEmpty(keyword))
+                //{
+                //    query = query.Where(x => x.Name.Contains(keyword));
+                //}
 
-                return Ok(query.Select(x => new BrandDto
-                {
-                    Id = x.Id,
-                    Name = x.Name,
-                }).ToList());
-            }
-            catch (System.Exception e)
-            {
-                var guid = Guid.NewGuid();
+                //return Ok(query.Select(x => new BrandDto
+                //{
+                //    Id = x.Id,
+                //    Name = x.Name,
+                //}).ToList());
 
-                _logger.Log(e);
 
-                return StatusCode(StatusCodes.Status500InternalServerError,
-                    new { message = "There was an error processing your request. Contact our support with the following code: " + guid.ToString() });
-            }
-            
+            return Ok(_handler.HandleQuery(query, search));
+           
+            //catch (System.Exception e)
+            //{
+            //    var guid = Guid.NewGuid();
+
+            //    _logger.Log(e);
+
+            //    return StatusCode(StatusCodes.Status500InternalServerError,
+            //        new { message = "There was an error processing your request. Contact our support with the following code: " + guid.ToString() });
+            //}
+
         }
 
         [HttpGet("{id}")]

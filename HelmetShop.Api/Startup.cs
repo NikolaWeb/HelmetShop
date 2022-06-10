@@ -21,6 +21,8 @@ using HelmetShop.Application.Logging;
 using HelmetShop.Implementation.Logging;
 using HelmetShop.Implementation;
 using HelmetShop.Implementation.Validators;
+using HelmetShop.Implementation.Emails;
+using HelmetShop.Application.Emails;
 
 namespace HelmetShop.Api
 {
@@ -52,11 +54,15 @@ namespace HelmetShop.Api
 
             services.AddSingleton<IPaymentMethod, WireTransfer>();
             services.AddTransient<OrderProcessor>();
-            services.AddTransient<IGetCategoriesQuery, GetCategoriesQuery>() ;
-            services.AddTransient<ICreateCategoryCommand, CreateCategoryCommand>();
+            services.AddTransient<IGetCategoriesQuery, GetCategoriesQuery>();
+            services.AddTransient<ICreateCategoryCommand, CreateCategoryCommand>();            
             services.AddTransient<IExceptionLogger, ConsoleExceptionLogger>();
             services.AddTransient<UseCaseHandler>();
             services.AddTransient<CreateCategoryValidator>();
+            services.AddTransient<RegisterValidator>();
+            services.AddTransient<IRegisterUserCommand, RegisterUserCommand>();
+            services.AddTransient<IEmailSender, FakeEmailSender>();
+            services.AddTransient<IGetBrandsQuery, GetBrandsQuery>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

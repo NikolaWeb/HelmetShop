@@ -1,7 +1,9 @@
-﻿using HelmetShop.Application.UseCases.Commands;
+﻿using FluentValidation;
+using HelmetShop.Application.UseCases.Commands;
 using HelmetShop.Application.UseCases.DTO;
 using HelmetShop.DataAccess;
 using HelmetShop.Domain;
+using HelmetShop.Implementation.Validators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,8 +14,10 @@ namespace HelmetShop.Implementation.UseCases.Commands
 {
     public class CreateCategoryCommand : UseCase, ICreateCategoryCommand
     {
-        public CreateCategoryCommand(HsContext context) : base(context)
+        private CreateCategoryValidator _validator;
+        public CreateCategoryCommand(HsContext context, CreateCategoryValidator validator) : base(context)
         {
+            _validator = validator;
         }
 
         public int Id => 3;
@@ -24,6 +28,8 @@ namespace HelmetShop.Implementation.UseCases.Commands
 
         public void Execute(CategoryDto request)
         {
+            _validator.ValidateAndThrow(request);
+
             var category = new Category
             {
                 Name = request.Name

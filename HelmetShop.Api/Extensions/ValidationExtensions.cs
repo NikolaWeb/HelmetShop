@@ -1,14 +1,15 @@
 ﻿using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace HelmetShop.Api.Extensions
 {
     public static class ValidationExtensions
     {
-        public static UnprocessableEntityObjectResult ToUnprocessableEntity(this ValidationResult result)
+        public static UnprocessableEntityObjectResult AsUnprocessableEntity(this IEnumerable<ValidationFailure> errors)
         {
-            var error = result.Errors.Select(x => new
+            var error = errors.Select(x => new
             {
                 x.ErrorMessage,
                 x.PropertyName
