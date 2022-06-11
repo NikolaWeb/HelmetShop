@@ -6,17 +6,17 @@ namespace HelmetShop.DataAccess
 {
     public class HsContext : DbContext
     {
-
+        
         public HsContext(DbContextOptions options) : base(options)
         {
 
         }
-        /*
-        public HsContext()
-        {
+        
+        //public HsContext()
+        //{
 
-        }
-        */
+        //}
+        
         public IApplicationUser User { get; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

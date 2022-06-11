@@ -23,6 +23,10 @@ using HelmetShop.Implementation;
 using HelmetShop.Implementation.Validators;
 using HelmetShop.Implementation.Emails;
 using HelmetShop.Application.Emails;
+using System.Reflection;
+using System.IO;
+using HelmetShop.Api.Core;
+using HelmetShop.Api.Extensions;
 
 namespace HelmetShop.Api
 {
@@ -38,35 +42,26 @@ namespace HelmetShop.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-            services.AddTransient<HsContext>(x =>
-            {
-                var optionsBuilder = new DbContextOptionsBuilder();
-
-                var connectionString = Configuration.GetSection("ConnectionString").Value;
-
-                optionsBuilder.UseSqlServer(connectionString);
-
-                var options = optionsBuilder.Options;
-
-                return new HsContext(options);
-            });
-
+            var settings = new AppSettings();
+            Configuration.Bind(settings);
+            services.AddSingleton(settings);
+            services.AddJwt(settings);
+            services.AddHsContext();
+            services.AddUseCases();
             services.AddSingleton<IPaymentMethod, WireTransfer>();
             services.AddTransient<OrderProcessor>();
-            services.AddTransient<IGetCategoriesQuery, GetCategoriesQuery>();
-            services.AddTransient<ICreateCategoryCommand, CreateCategoryCommand>();            
+
             services.AddTransient<IExceptionLogger, ConsoleExceptionLogger>();
             services.AddTransient<UseCaseHandler>();
-            services.AddTransient<CreateCategoryValidator>();
-            services.AddTransient<RegisterValidator>();
-            services.AddTransient<IRegisterUserCommand, RegisterUserCommand>();
             services.AddTransient<IEmailSender, FakeEmailSender>();
-            services.AddTransient<IGetBrandsQuery, GetBrandsQuery>();
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "HelmetShop.Api", Version = "v1" });
+
+                var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
             });
         }
 
@@ -81,6 +76,8 @@ namespace HelmetShop.Api
             }
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

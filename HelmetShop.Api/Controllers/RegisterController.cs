@@ -3,6 +3,7 @@ using HelmetShop.Api.Extensions;
 using HelmetShop.Application.UseCases.Commands;
 using HelmetShop.Application.UseCases.DTO;
 using HelmetShop.Implementation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,6 +21,7 @@ namespace HelmetShop.Api.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public IActionResult Post([FromBody] RegisterDto dto, [FromServices] IRegisterUserCommand command)
         {
             try

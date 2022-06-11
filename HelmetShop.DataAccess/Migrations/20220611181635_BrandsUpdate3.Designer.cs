@@ -4,14 +4,16 @@ using HelmetShop.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HelmetShop.DataAccess.Migrations
 {
     [DbContext(typeof(HsContext))]
-    partial class HsContextModelSnapshot : ModelSnapshot
+    [Migration("20220611181635_BrandsUpdate3")]
+    partial class BrandsUpdate3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -349,7 +351,7 @@ namespace HelmetShop.DataAccess.Migrations
             modelBuilder.Entity("HelmetShop.Domain.Product", b =>
                 {
                     b.HasOne("HelmetShop.Domain.Brand", "Brand")
-                        .WithMany("Products")
+                        .WithMany()
                         .HasForeignKey("BrandId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -385,11 +387,6 @@ namespace HelmetShop.DataAccess.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("HelmetShop.Domain.Brand", b =>
-                {
-                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("HelmetShop.Domain.Category", b =>

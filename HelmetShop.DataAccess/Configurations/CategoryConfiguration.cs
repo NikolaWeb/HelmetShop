@@ -21,7 +21,7 @@ namespace HelmetShop.DataAccess.Configurations
                    .HasForeignKey(x => x.CategoryId)
                    .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasIndex(x => x.Name);
+            builder.HasIndex(x => x.Name).IsUnique();
 
             //function(x) => { return x.ProductCategories }
 

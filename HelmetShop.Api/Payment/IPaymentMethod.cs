@@ -5,8 +5,6 @@ namespace HelmetShop.Api.Payment
     public interface IPaymentMethod
     {
         bool Pay(decimal amount);
-
-       
     }
 
     public interface ILogger

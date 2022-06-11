@@ -1,9 +1,13 @@
 ﻿using FluentValidation;
+using HelmetShop.Api.Extensions;
 using HelmetShop.Application.Logging;
+using HelmetShop.Application.UseCases.Commands;
+using HelmetShop.Application.UseCases.DTO;
 using HelmetShop.Application.UseCases.DTO.Searches;
 using HelmetShop.Application.UseCases.Queries;
 using HelmetShop.DataAccess;
 using HelmetShop.Implementation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +18,7 @@ namespace HelmetShop.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class BrandsController : ControllerBase
     {
         private UseCaseHandler _handler;
@@ -25,7 +30,7 @@ namespace HelmetShop.Api.Controllers
 
         //GET: api/brand
         [HttpGet]
-        public IActionResult Get([FromQuery] BaseSearch search, [FromServices] IGetBrandsQuery query)
+        public IActionResult Get([FromQuery]BaseSearch search, [FromServices]IGetBrandsQuery query)
         {    
            
                 //var query = _context.Brands.AsQueryable();
@@ -58,10 +63,46 @@ namespace HelmetShop.Api.Controllers
 
         }
 
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpPost]
+        public IActionResult Post([FromBody]BrandDto dto, [FromServices]ICreateBrandCommand command)
         {
-            return "value";
+            try
+            {
+                //validacija sa ispisom gresaka
+                //var result = validator.Validate(dto);
+
+                //if (!result.IsValid)
+                //{
+                //    return result.ToUnprocessableEntity();
+                //}
+
+                _handler.HandleCommand(command, dto);
+                //command.Execute(dto);
+                return StatusCode(201);
+            }
+            catch (ValidationException e)
+            {
+                return e.Errors.AsUnprocessableEntity();
+            }
+            catch (System.Exception)
+            {
+                return StatusCode(500);
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id, [FromServices]IDeleteBrandCommand command)
+        {
+            try
+            {
+                _handler.HandleCommand(command, id);
+                return NoContent();
+            }
+          
+            catch (System.Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
     }
 }

@@ -12,30 +12,30 @@ using System.Threading.Tasks;
 
 namespace HelmetShop.Implementation.UseCases.Commands
 {
-    public class CreateCategoryCommand : UseCase, ICreateCategoryCommand
+    public class CreateBrandCommand : UseCase, ICreateBrandCommand
     {
-        private readonly CreateCategoryValidator _validator;
-        public CreateCategoryCommand(HsContext context, CreateCategoryValidator validator) : base(context)
+        private CreateBrandValidator _validator;
+        public CreateBrandCommand(HsContext context, CreateBrandValidator validator) : base(context)
         {
             _validator = validator;
         }
 
-        public int Id => 3;
+        public int Id => 5;
 
-        public string Name => "Create Category";
+        public string Name => "Create Brand";
 
-        public string Description => "Create category using EF";
+        public string Description => "Create brand using EF";
 
-        public void Execute(CategoryDto request)
+        public void Execute(BrandDto request)
         {
             _validator.ValidateAndThrow(request);
 
-            var category = new Category
+            var brand = new Brand
             {
                 Name = request.Name
             };
 
-            Context.Categories.Add(category);
+            Context.Brands.Add(brand);
 
             Context.SaveChanges();
         }

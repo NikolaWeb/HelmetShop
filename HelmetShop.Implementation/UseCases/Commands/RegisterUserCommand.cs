@@ -33,13 +33,15 @@ namespace HelmetShop.Implementation.UseCases.Commands
         {
             _validator.ValidateAndThrow(request);
 
+            var hash = BCrypt.Net.BCrypt.HashPassword(request.Password);
+
             var user = new User
             {
                 Username = request.Username,
                 Email = request.Email,
                 FirstName = request.FirstName,
                 LastName = request.LastName,
-                Password = request.Password
+                Password = hash
             };
 
             Context.Users.Add(user);

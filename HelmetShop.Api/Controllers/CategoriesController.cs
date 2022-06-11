@@ -6,6 +6,7 @@ using HelmetShop.Application.UseCases.DTO.Searches;
 using HelmetShop.Application.UseCases.Queries;
 using HelmetShop.Implementation;
 using HelmetShop.Implementation.Validators;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 
@@ -15,9 +16,10 @@ namespace HelmetShop.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class CategoriesController : ControllerBase
     {
-        private UseCaseHandler _handler;
+        private  readonly UseCaseHandler _handler;
 
         public CategoriesController(UseCaseHandler handler)
         {
@@ -33,8 +35,15 @@ namespace HelmetShop.Api.Controllers
         }
         */
 
+        /// <summary>
+        /// Search categories
+        /// </summary>
+        /// <param name="search"></param>
+        /// <param name="query"></param>
+        /// <returns></returns>
 
         // GET: api/<CategoriesController>
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult Get([FromQuery]BaseSearch search, [FromServices] IGetCategoriesQuery query)
         {
@@ -43,6 +52,15 @@ namespace HelmetShop.Api.Controllers
             return Ok(_handler.HandleQuery(query, search));
         }
 
+        /// <summary>
+        /// Creates a new category
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <param name="command"></param>
+        /// <returns></returns>
+
+        [HttpPost]
+        
         public IActionResult Post([FromBody]CategoryDto dto, [FromServices] ICreateCategoryCommand command)
         {
             try
