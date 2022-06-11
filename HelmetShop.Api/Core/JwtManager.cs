@@ -1,6 +1,7 @@
 ﻿using HelmetShop.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -53,7 +54,7 @@ namespace HelmetShop.Api.Core
                 new Claim(JwtRegisteredClaimNames.Iss, _settings.Issuer),
                 new Claim(JwtRegisteredClaimNames.Iat, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64, _settings.Issuer),
                 new Claim("UserId", actor.Id.ToString(), ClaimValueTypes.String, _settings.Issuer),
-                //new Claim("UseCases", JsonConvert.SerializeObject(actor.UseCaseIds)),
+                new Claim("UseCases", JsonConvert.SerializeObject(actor.UseCaseIds)),
                 new Claim("Username", user.Username),
             };
 

@@ -27,6 +27,8 @@ using System.Reflection;
 using System.IO;
 using HelmetShop.Api.Core;
 using HelmetShop.Api.Extensions;
+using HelmetShop.Application.UseCases;
+using HelmetShop.Implementation.UseCases.UseCaseLoggers;
 
 namespace HelmetShop.Api
 {
@@ -48,14 +50,17 @@ namespace HelmetShop.Api
             services.AddJwt(settings);
             services.AddHsContext();
             services.AddUseCases();
+            services.AddApplicationUser();
             services.AddSingleton<IPaymentMethod, WireTransfer>();
             services.AddTransient<OrderProcessor>();
 
             services.AddTransient<IExceptionLogger, ConsoleExceptionLogger>();
             services.AddTransient<UseCaseHandler>();
             services.AddTransient<IEmailSender, FakeEmailSender>();
+            services.AddTransient<IUseCaseLogger, ConsoleUseCaseLogger>();
 
             services.AddControllers();
+            services.AddHttpContextAccessor();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "HelmetShop.Api", Version = "v1" });

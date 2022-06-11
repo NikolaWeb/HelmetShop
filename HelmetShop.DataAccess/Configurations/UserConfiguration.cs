@@ -22,9 +22,7 @@ namespace HelmetShop.DataAccess.Configurations
             builder.HasIndex(x => x.Username).IsUnique();
 
             builder.HasMany(x => x.Orders).WithOne(x => x.User).HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.Restrict);
-            builder.HasMany(x => x.UseCases).WithOne(x => x.User).HasForeignKey(x => x.UserId);
-
-          
+            builder.HasMany(x => x.UseCases).WithOne(x => x.User).HasForeignKey(x => x.UserId); 
 
         }
     }

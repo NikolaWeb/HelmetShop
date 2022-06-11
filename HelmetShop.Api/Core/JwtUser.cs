@@ -9,8 +9,19 @@ namespace HelmetShop.Api.Core
 
         public int Id { get; set; }
 
-        public IEnumerable<int> UseCaseIds { get; set; }
+        public IEnumerable<int> UseCaseIds { get; set; } = new List<int>();
 
         public string Username { get; set; }
+    }
+
+    public class AnonymousUser : IApplicationUser
+    {
+        public string Identity => "Anonymous";
+
+        public int Id => 0;
+
+        public IEnumerable<int> UseCaseIds => new List<int> { 4 };
+
+        public string Username => "Anonymous";
     }
 }

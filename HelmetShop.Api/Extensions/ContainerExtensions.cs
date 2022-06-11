@@ -2,14 +2,18 @@
 using HelmetShop.Application.UseCases.Commands;
 using HelmetShop.Application.UseCases.Queries;
 using HelmetShop.DataAccess;
+using HelmetShop.Domain;
 using HelmetShop.Implementation.UseCases.Commands;
 using HelmetShop.Implementation.UseCases.Queries;
 using HelmetShop.Implementation.Validators;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace HelmetShop.Api.Extensions
@@ -63,6 +67,32 @@ namespace HelmetShop.Api.Extensions
 
             services.AddTransient<IRegisterUserCommand, RegisterUserCommand>();
             services.AddTransient<RegisterValidator>();
+        }
+
+        public static void AddApplicationUser(this IServiceCollection services)
+        {
+            services.AddTransient<IApplicationUser>(x =>
+            {
+                var accessor = x.GetService<IHttpContextAccessor>();
+                var header = accessor.HttpContext.Request.Headers["Authorization"];
+
+                var user = accessor.HttpContext.User;
+
+                if (user == null || user.FindFirst("UserId") == null)
+                {
+                    return new AnonymousUser();
+                }
+
+                var actor = new JwtUser
+                {
+                    Username = user.FindFirst("Username").Value,
+                    Id = Int32.Parse(user.FindFirst("UserId").Value),
+                    Identity = user.FindFirst("username").Value,
+                    UseCaseIds = JsonConvert.DeserializeObject<List<int>>(user.FindFirst("UseCases").Value)
+                };
+
+                return actor;
+            });
         }
 
         public static void AddHsContext(this IServiceCollection services)
