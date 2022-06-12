@@ -38,7 +38,8 @@ namespace HelmetShop.Implementation.UseCases.Commands
                 Description = request.Description,
                 ImageUrl = request.ImageUrl,
                 Price = request.Price,
-                BrandId = request.BrandId,
+                BrandId = request.BrandId
+                
             };
 
             Context.Products.Add(product);

@@ -71,6 +71,9 @@ namespace HelmetShop.Api.Extensions
             services.AddTransient<CreateProductValidator>();
 
             services.AddTransient<IGetCartItemsQuery, GetCartItemsQuery>();
+            services.AddTransient<ICreateCartItemCommand, CreateCartItemCommand>();
+            services.AddTransient<IDeleteCartItemCommand, DeleteCartItemCommand>();
+            services.AddTransient<CreateCartItemValidator>();
 
             services.AddTransient<IGetOrdersQuery, GetOrdersQuery>();
             services.AddTransient<ICreateOrderCommand, CreateOrderCommand>();
