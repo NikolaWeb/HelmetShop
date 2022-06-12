@@ -49,7 +49,9 @@ namespace HelmetShop.Implementation.UseCases.Queries
             {
                 Quantity = x.Quantity,
                 ProductId = x.ProductId,
-                OrderId = x.OrderId
+                OrderId = x.OrderId,
+                Total = x.Product.Price * x.Quantity,
+                UserId = x.Order.UserId
             }).ToList();
 
             response.CurrentPage = search.Page.Value;
