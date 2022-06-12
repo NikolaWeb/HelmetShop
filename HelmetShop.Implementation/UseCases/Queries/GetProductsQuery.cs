@@ -1,4 +1,5 @@
-﻿using HelmetShop.Application.UseCases.DTO;
+﻿using HelmetShop.Application.UseCases;
+using HelmetShop.Application.UseCases.DTO;
 using HelmetShop.Application.UseCases.DTO.Searches;
 using HelmetShop.Application.UseCases.Queries;
 using HelmetShop.DataAccess;
@@ -22,7 +23,7 @@ namespace HelmetShop.Implementation.UseCases.Queries
 
         public string Description => "Search products using EF";
 
-        public IEnumerable<ProductDto> Execute(BaseSearch search)
+        Pagination<ProductDto> IQuery<BasePaginationSearch, Pagination<ProductDto>>.Execute(BasePaginationSearch search)
         {
             var query = Context.Products.AsQueryable();
 
@@ -31,7 +32,22 @@ namespace HelmetShop.Implementation.UseCases.Queries
                 query = query.Where(x => x.Name.Contains(search.Keyword));
             }
 
-            return query.Select(x => new ProductDto
+            if (search.PerPage == null || search.PerPage < 1)
+            {
+                search.PerPage = 10;
+            }
+
+            if (search.Page == null || search.Page < 1)
+            {
+                search.Page = 1;
+            }
+
+            var toSkip = (search.Page.Value - 1) * search.PerPage.Value;
+
+
+            var response = new Pagination<ProductDto>();
+            response.TotalCount = query.Count();
+            response.Data = query.Skip(toSkip).Take(search.PerPage.Value).Select(x => new ProductDto
             {
                 Name = x.Name,
                 Size = x.Size,
@@ -39,8 +55,16 @@ namespace HelmetShop.Implementation.UseCases.Queries
                 ImageUrl = x.ImageUrl,
                 Price = x.Price,
                 Id = x.Id,
-                BrandId = x.BrandId
+                BrandId = x.BrandId,
+                BrandName = x.Brand.Name
             }).ToList();
+
+            response.CurrentPage = search.Page.Value;
+            response.ItemsPerPage = search.PerPage.Value;
+
+            return response;
         }
+
+        
     }
 }

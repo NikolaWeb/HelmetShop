@@ -72,7 +72,9 @@ namespace HelmetShop.Api.Extensions
 
             services.AddTransient<IGetCartItemsQuery, GetCartItemsQuery>();
 
+            services.AddTransient<IGetOrdersQuery, GetOrdersQuery>();
             services.AddTransient<ICreateOrderCommand, CreateOrderCommand>();
+            services.AddTransient<IDeleteOrderCommand, DeleteOrderCommand>();
             services.AddTransient<CreateOrderValidator>();
 
             services.AddTransient<IUpdateUserUseCasesCommand, UpdateUserUseCasesCommand>();

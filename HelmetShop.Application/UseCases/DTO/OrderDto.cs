@@ -11,6 +11,6 @@ namespace HelmetShop.Application.UseCases.DTO
         public int UserId { get; set; }
         public string Address { get; set; }
         public DateTime CreatedAt { get; set; }
-        public int OrderLineId { get; set; }
+        public string User { get; set; }
     }
 }
