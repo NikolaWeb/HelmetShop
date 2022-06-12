@@ -70,6 +70,9 @@ namespace HelmetShop.Api.Extensions
             services.AddTransient<IDeleteProductCommand, DeleteProductCommand>();
             services.AddTransient<CreateProductValidator>();
 
+            services.AddTransient<IUpdateUserUseCasesCommand, UpdateUserUseCasesCommand>();
+            services.AddTransient<UpdateUserUseCasesValidator>();
+
             services.AddTransient<IRegisterUserCommand, RegisterUserCommand>();
             services.AddTransient<RegisterValidator>();
         }
