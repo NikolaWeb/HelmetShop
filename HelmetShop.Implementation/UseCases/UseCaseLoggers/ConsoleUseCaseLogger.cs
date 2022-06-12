@@ -12,7 +12,7 @@ namespace HelmetShop.Implementation.UseCases.UseCaseLoggers
         public void Log(UseCaseLogger log)
         {
             Console.WriteLine($"UseCase: {log.UseCaseName}, User: {log.User}, {log.ExecutionTime}, Authorization: {log.IsAuthorized}");
-            Console.WriteLine($"Use case data: {log.Data}");
+            Console.WriteLine($"Use case data:" + log.Data);
         }
     }
 }

@@ -63,7 +63,12 @@ namespace HelmetShop.Api.Extensions
             services.AddTransient<ICreateBrandCommand, CreateBrandCommand>();
             services.AddTransient<IDeleteBrandCommand, DeleteBrandCommand>();
             services.AddTransient<CreateBrandValidator>();
-            
+
+            services.AddTransient<IGetProductsQuery, GetProductsQuery>();
+            services.AddTransient<IGetProductQuery, GetProductQuery>();
+            services.AddTransient<ICreateProductCommand, CreateProductCommand>();
+            services.AddTransient<IDeleteProductCommand, DeleteProductCommand>();
+            services.AddTransient<CreateProductValidator>();
 
             services.AddTransient<IRegisterUserCommand, RegisterUserCommand>();
             services.AddTransient<RegisterValidator>();

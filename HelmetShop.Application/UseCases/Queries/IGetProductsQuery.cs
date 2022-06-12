@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace HelmetShop.Application.UseCases.Queries
 {
-    public interface IGetCategoriesQuery : IQuery<BasePaginationSearch, Pagination<CategoryDto>>
+    public interface IGetProductsQuery : IQuery<BaseSearch, IEnumerable<ProductDto>>
     {
 
     }

@@ -21,21 +21,9 @@ namespace HelmetShop.Api.Controllers
         [AllowAnonymous]
         public IActionResult Post([FromBody] TokenRequest request)
         {
-            try
-            {
-                var token = _manager.MakeToken(request.Username, request.Password);
+            var token = _manager.MakeToken(request.Username, request.Password);
 
-                return Ok(new { token });
-            }
-            catch (UnauthorizedAccessException)
-            {
-                return Unauthorized();
-            }
-            catch (System.Exception)
-            {
-
-                return StatusCode(StatusCodes.Status500InternalServerError);
-            }
+            return Ok(new { token });
         }
     }
 

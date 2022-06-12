@@ -1,5 +1,4 @@
 ﻿using HelmetShop.Application.UseCases.DTO;
-using HelmetShop.Application.UseCases.DTO.Searches;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +7,7 @@ using System.Threading.Tasks;
 
 namespace HelmetShop.Application.UseCases.Queries
 {
-    public interface IGetCategoriesQuery : IQuery<BasePaginationSearch, Pagination<CategoryDto>>
+    public interface IGetProductQuery : IQuery<int, ProductDto>
     {
-
     }
 }

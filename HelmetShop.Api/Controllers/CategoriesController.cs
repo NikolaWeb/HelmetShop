@@ -19,7 +19,7 @@ namespace HelmetShop.Api.Controllers
     [Authorize]
     public class CategoriesController : ControllerBase
     {
-        private  readonly UseCaseHandler _handler;
+        private readonly UseCaseHandler _handler;
 
         public CategoriesController(UseCaseHandler handler)
         {
@@ -45,7 +45,7 @@ namespace HelmetShop.Api.Controllers
         // GET: api/<CategoriesController>
         [AllowAnonymous]
         [HttpGet]
-        public IActionResult Get([FromQuery]BaseSearch search, [FromServices] IGetCategoriesQuery query)
+        public IActionResult Get([FromQuery] BasePaginationSearch search, [FromServices] IGetCategoriesQuery query)
         {
             //return Ok(query.Execute(search));
 
@@ -63,28 +63,29 @@ namespace HelmetShop.Api.Controllers
         
         public IActionResult Post([FromBody]CategoryDto dto, [FromServices] ICreateCategoryCommand command)
         {
-            try
-            {
-                //validacija sa ispisom gresaka
-                //var result = validator.Validate(dto);
+            _handler.HandleCommand(command, dto);
+            //command.Execute(dto);
+            return StatusCode(201);
+            //try
+            //{
+            //    //validacija sa ispisom gresaka
+            //    //var result = validator.Validate(dto);
 
-                //if (!result.IsValid)
-                //{
-                //    return result.ToUnprocessableEntity();
-                //}
+            //    //if (!result.IsValid)
+            //    //{
+            //    //    return result.ToUnprocessableEntity();
+            //    //}
 
-                _handler.HandleCommand(command, dto);
-                //command.Execute(dto);
-                return StatusCode(201);
-            }
-            catch (ValidationException e) 
-            {
-                return e.Errors.AsUnprocessableEntity();
-            }
-            catch (System.Exception)
-            {
-                return StatusCode(500);
-            }
+
+            //}
+            //catch (ValidationException e) 
+            //{
+            //    return e.Errors.AsUnprocessableEntity();
+            //}
+            //catch (System.Exception)
+            //{
+            //    return StatusCode(500);
+            //}
         }
        
     }

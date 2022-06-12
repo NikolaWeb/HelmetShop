@@ -24,21 +24,8 @@ namespace HelmetShop.Api.Controllers
         [AllowAnonymous]
         public IActionResult Post([FromBody] RegisterDto dto, [FromServices] IRegisterUserCommand command)
         {
-            try
-            {
-                _handler.HandleCommand(command, dto);
-
-                return StatusCode(201);
-            }
-            catch (ValidationException e)
-            {
-                return e.Errors.AsUnprocessableEntity();
-            }
-            catch (System.Exception)
-            {
-
-                return StatusCode(500);
-            }
+            _handler.HandleCommand(command, dto);
+            return StatusCode(201);
         }
     }
 }

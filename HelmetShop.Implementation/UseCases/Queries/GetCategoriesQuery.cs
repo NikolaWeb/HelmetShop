@@ -24,7 +24,7 @@ namespace HelmetShop.Implementation.UseCases.Queries
         {
         }
 
-        public IEnumerable<CategoryDto> Execute(BaseSearch search)
+        public Pagination<CategoryDto> Execute(BasePaginationSearch search)
         {
             var query = Context.Categories.AsQueryable();
 
@@ -33,11 +33,37 @@ namespace HelmetShop.Implementation.UseCases.Queries
                 query = query.Where(x => x.Name.Contains(search.Keyword));
             }
 
-            return query.Select(x => new CategoryDto
+            if(search.PerPage == null || search.PerPage < 1)
+            {
+                search.PerPage = 10;
+            }
+
+            if (search.Page == null || search.Page < 1)
+            {
+                search.Page = 1;
+            }
+
+            var toSkip = (search.Page.Value - 1) * search.PerPage.Value;
+
+
+            var response = new Pagination<CategoryDto>();
+            response.TotalCount = query.Count();
+            response.Data = query.Skip(toSkip).Take(search.PerPage.Value).Select(x => new CategoryDto
             {
                 Name = x.Name,
-                Id = x.Id,
+                Id = x.Id
             }).ToList();
+
+            response.CurrentPage = search.Page.Value;
+            response.ItemsPerPage = search.PerPage.Value;
+
+            return response;
+
+            //return query.Select(x => new CategoryDto
+            //{
+            //    Name = x.Name,
+            //    Id = x.Id,
+            //}).ToList();
         }
 
       

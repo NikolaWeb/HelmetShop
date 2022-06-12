@@ -28,29 +28,27 @@ namespace HelmetShop.Api.Controllers
             _handler = handler;
         }
 
-        //GET: api/brand
+        //GET: api/brands
         [HttpGet]
         public IActionResult Get([FromQuery]BaseSearch search, [FromServices]IGetBrandsQuery query)
-        {    
-           
-                //var query = _context.Brands.AsQueryable();
-
-                //var keyword = search.Keyword;
-
-                //if (!string.IsNullOrEmpty(keyword))
-                //{
-                //    query = query.Where(x => x.Name.Contains(keyword));
-                //}
-
-                //return Ok(query.Select(x => new BrandDto
-                //{
-                //    Id = x.Id,
-                //    Name = x.Name,
-                //}).ToList());
-
-
+        {
             return Ok(_handler.HandleQuery(query, search));
-           
+
+            //var query = _context.Brands.AsQueryable();
+
+            //var keyword = search.Keyword;
+
+            //if (!string.IsNullOrEmpty(keyword))
+            //{
+            //    query = query.Where(x => x.Name.Contains(keyword));
+            //}
+
+            //return Ok(query.Select(x => new BrandDto
+            //{
+            //    Id = x.Id,
+            //    Name = x.Name,
+            //}).ToList());
+
             //catch (System.Exception e)
             //{
             //    var guid = Guid.NewGuid();
@@ -66,43 +64,37 @@ namespace HelmetShop.Api.Controllers
         [HttpPost]
         public IActionResult Post([FromBody]BrandDto dto, [FromServices]ICreateBrandCommand command)
         {
-            try
-            {
-                //validacija sa ispisom gresaka
-                //var result = validator.Validate(dto);
+            _handler.HandleCommand(command, dto);
+            return StatusCode(201);
+            //try
+            //{
+            //    //validacija sa ispisom gresaka
+            //    //var result = validator.Validate(dto);
 
-                //if (!result.IsValid)
-                //{
-                //    return result.ToUnprocessableEntity();
-                //}
+            //    //if (!result.IsValid)
+            //    //{
+            //    //    return result.ToUnprocessableEntity();
+            //    //}
 
-                _handler.HandleCommand(command, dto);
-                //command.Execute(dto);
-                return StatusCode(201);
-            }
-            catch (ValidationException e)
-            {
-                return e.Errors.AsUnprocessableEntity();
-            }
-            catch (System.Exception)
-            {
-                return StatusCode(500);
-            }
+
+            //    //command.Execute(dto);
+            //    return StatusCode(201);
+            //}
+            //catch (ValidationException e)
+            //{
+            //    return e.Errors.AsUnprocessableEntity();
+            //}
+            //catch (System.Exception)
+            //{
+            //    return StatusCode(500);
+            //}
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id, [FromServices]IDeleteBrandCommand command)
         {
-            try
-            {
-                _handler.HandleCommand(command, id);
-                return NoContent();
-            }
-          
-            catch (System.Exception)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError);
-            }
+            _handler.HandleCommand(command, id);
+            return NoContent();
         }
     }
 }

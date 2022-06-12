@@ -82,6 +82,8 @@ namespace HelmetShop.Api
 
             app.UseRouting();
 
+            app.UseMiddleware<GlobalExceptionHandler>();
+
             app.UseAuthentication();
 
             app.UseAuthorization();

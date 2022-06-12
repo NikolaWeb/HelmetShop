@@ -10,4 +10,16 @@ namespace HelmetShop.Application.UseCases.DTO.Searches
     {
         public string Keyword { get; set; }
     }
+
+    public class PaginationSearch
+    {
+        public int? PerPage { get; set; } = 10;
+        public int? Page { get; set; } = 1;
+    }
+
+    public class BasePaginationSearch : PaginationSearch
+    {
+        public string Keyword { get; set; }
+    }
+
 }
