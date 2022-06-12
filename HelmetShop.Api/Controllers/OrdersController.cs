@@ -1,4 +1,7 @@
 ﻿using HelmetShop.Api.Payment;
+using HelmetShop.Application.UseCases.Commands;
+using HelmetShop.Application.UseCases.DTO;
+using HelmetShop.Implementation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,18 +16,18 @@ namespace HelmetShop.Api.Controllers
     [Authorize]
     public class OrdersController : ControllerBase
     {
-        OrderProcessor orderProcessor;
+        private readonly UseCaseHandler _handler;
 
-        public OrdersController(OrderProcessor processor)
+        public OrdersController(UseCaseHandler handler)
         {
-            orderProcessor = processor;
+            _handler = handler;
         }
 
         [HttpPost]
-        public void Post ([FromBody] Order o)
-        {  
-            orderProcessor.ProcessOrder(o);
+        public IActionResult Post([FromBody] OrderDto dto, [FromServices] ICreateOrderCommand command)
+        {
+            _handler.HandleCommand(command, dto);
+            return StatusCode(201);
         }
-
     }
 }
