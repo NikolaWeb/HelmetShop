@@ -26,7 +26,7 @@ namespace HelmetShop.Api.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get([FromQuery] BaseSearch search, [FromServices] IGetOrdersQuery query)
+        public IActionResult Get([FromQuery] BasePaginationSearch search, [FromServices] IGetOrdersQuery query)
         {
 
             return Ok(_handler.HandleQuery(query, search));

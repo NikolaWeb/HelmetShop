@@ -26,7 +26,7 @@ namespace HelmetShop.Implementation.UseCases.Queries
 
         public string Description => "Search orders using EF";
 
-        public IEnumerable<OrderDto> Execute(BaseSearch search)
+        Pagination<OrderDto> IQuery<BasePaginationSearch, Pagination<OrderDto>>.Execute(BasePaginationSearch search)
         {
             var query = Context.Orders.AsQueryable();
 
@@ -35,7 +35,22 @@ namespace HelmetShop.Implementation.UseCases.Queries
                 query = query.Where(x => x.Address.Contains(search.Keyword));
             }
 
-            return query.Select(x => new OrderDto
+            if (search.PerPage == null || search.PerPage < 1)
+            {
+                search.PerPage = 10;
+            }
+
+            if (search.Page == null || search.Page < 1)
+            {
+                search.Page = 1;
+            }
+
+            var toSkip = (search.Page.Value - 1) * search.PerPage.Value;
+
+
+            var response = new Pagination<OrderDto>();
+            response.TotalCount = query.Count();
+            response.Data = query.Skip(toSkip).Take(search.PerPage.Value).Select(x => new OrderDto
             {
                 Id = x.Id,
                 Address = x.Address,
@@ -44,6 +59,11 @@ namespace HelmetShop.Implementation.UseCases.Queries
                 User = x.User.Username
                
             }).ToList();
+
+            response.CurrentPage = search.Page.Value;
+            response.ItemsPerPage = search.PerPage.Value;
+
+            return response;
         }
     }
 }
