@@ -11,13 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelmetShop.Api", "HelmetSho
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelmetShop.Application", "HelmetShop.Application\HelmetShop.Application.csproj", "{0CA25F6B-BD2D-448D-86BC-7CFF60918050}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelmetShop.Implementation", "HelmetShop.Implementation\HelmetShop.Implementation.csproj", "{19BDB17B-9890-429C-BEA6-ECE75A2763CF}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{14ECECCD-15BC-4859-9574-7DF32E2E6426}"
-	ProjectSection(SolutionItems) = preProject
-		DbScript.txt = DbScript.txt
-		..\..\..\Documents\helmetshopdatabase.sql = ..\..\..\Documents\helmetshopdatabase.sql
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelmetShop.Implementation", "HelmetShop.Implementation\HelmetShop.Implementation.csproj", "{19BDB17B-9890-429C-BEA6-ECE75A2763CF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

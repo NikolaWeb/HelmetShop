@@ -38,7 +38,7 @@ namespace HelmetShop.Api.Controllers
             _handler.HandleCommand(command, dto);
             return StatusCode(201);
         }
-
+        
         //DELETE: api/orders/{id}
         [HttpDelete("{id}")]
         public IActionResult Delete(int id, [FromServices] IDeleteOrderCommand command)
@@ -46,5 +46,6 @@ namespace HelmetShop.Api.Controllers
             _handler.HandleCommand(command, id);
             return NoContent();
         }
+
     }
 }
